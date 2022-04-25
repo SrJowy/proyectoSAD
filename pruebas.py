@@ -9,13 +9,13 @@ from nltk.tokenize import RegexpTokenizer
 import numpy as np
 
 
-data = pd.read_csv("datos.csv", sep=',')
+data = pd.read_csv("nuevos_datos.csv", sep=',', dtype={"col_0": "string", "asin": "string", "brand": "string", "price": "string", "title":"string", "col_5":"string", "category": "string", "rank": "string", "description": "string", "main_cat": "string", "details": "string", "overall": int, "vote_y": "string", "verified_y": bool, "reviewTime_y": "string", "reviewerID_y": "string", "reviewerName_y": "string", "reviewText": "string", "summary": "string", "unixReviewTime": int, "State": "string", "Country": "string", "Postal Code": int})
 #print(data.head())
 #print(data.info())
 
 token = RegexpTokenizer(r'[a-zA-Z0-9]+')
 cv = CountVectorizer(lowercase=True, stop_words="english", ngram_range= (1,1), tokenizer = token.tokenize)
-X = cv.fit_transform(data['reviewText']).toarray()
+X = cv.fit_transform(data['reviewText'].values.astype('U')).toarray()
 
 y = data["overall"] #Select the stars column
 
